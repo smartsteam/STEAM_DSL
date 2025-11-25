@@ -326,7 +326,8 @@ export default function App() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    ctx.fillStyle = '#0f172a';
+    // Use white background for capture in light mode
+    ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     const img = new Image();
@@ -360,17 +361,17 @@ export default function App() {
   }, []);
 
   return (
-    <div className="flex flex-col h-screen max-h-screen bg-slate-950 text-slate-100 overflow-hidden">
+    <div className="flex flex-col h-screen max-h-screen bg-stone-50 text-stone-900 overflow-hidden">
       
       {/* Header */}
-      <header className="h-16 border-b border-slate-800 bg-slate-900/50 flex items-center justify-between px-6 shrink-0">
+      <header className="h-16 border-b border-stone-200 bg-white/80 backdrop-blur flex items-center justify-between px-6 shrink-0 z-20">
         <div className="flex items-center gap-3">
-          <div className="bg-blue-600 p-2 rounded-lg">
+          <div className="bg-blue-600 p-2 rounded-lg shadow-sm">
             <Activity className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h1 className="font-bold text-xl tracking-tight text-white">{t.appTitle}</h1>
-            <p className="text-xs text-slate-400">{t.appSubtitle}</p>
+            <h1 className="font-bold text-xl tracking-tight text-stone-900">{t.appTitle}</h1>
+            <p className="text-xs text-stone-500">{t.appSubtitle}</p>
           </div>
         </div>
 
@@ -379,37 +380,37 @@ export default function App() {
           {/* Language Toggle */}
           <button 
             onClick={toggleLanguage}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs text-slate-300 font-medium transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white hover:bg-stone-50 border border-stone-200 text-xs text-stone-600 font-medium transition-colors shadow-sm"
           >
             <Globe className="w-3 h-3" />
             {lang === 'ko' ? 'English' : '한국어'}
           </button>
 
-          <div className="w-px h-6 bg-slate-800 mx-2"></div>
+          <div className="w-px h-6 bg-stone-300 mx-2"></div>
 
           {/* Time Mode Select */}
-           <div className="flex items-center gap-2 bg-slate-800 p-1 rounded-lg border border-slate-700">
-            {timeMode === 'relative' ? <Timer className="w-4 h-4 ml-2 text-slate-400" /> : <Clock className="w-4 h-4 ml-2 text-slate-400" />}
+           <div className="flex items-center gap-2 bg-white p-1 rounded-lg border border-stone-200 shadow-sm">
+            {timeMode === 'relative' ? <Timer className="w-4 h-4 ml-2 text-stone-500" /> : <Clock className="w-4 h-4 ml-2 text-stone-500" />}
             <select 
-              className="bg-transparent text-sm text-slate-200 focus:outline-none p-1 cursor-pointer"
+              className="bg-transparent text-sm text-stone-700 focus:outline-none p-1 cursor-pointer"
               value={timeMode}
               onChange={(e) => setTimeMode(e.target.value as TimeMode)}
             >
-              <option value="relative" className="bg-slate-800">{t.relativeTime}</option>
-              <option value="absolute" className="bg-slate-800">{t.absoluteTime}</option>
+              <option value="relative" className="bg-white">{t.relativeTime}</option>
+              <option value="absolute" className="bg-white">{t.absoluteTime}</option>
             </select>
           </div>
 
-          <div className="flex items-center gap-2 bg-slate-800 p-1 rounded-lg border border-slate-700">
-            <Settings className="w-4 h-4 ml-2 text-slate-400" />
+          <div className="flex items-center gap-2 bg-white p-1 rounded-lg border border-stone-200 shadow-sm">
+            <Settings className="w-4 h-4 ml-2 text-stone-500" />
             <select 
-              className="bg-transparent text-sm text-slate-200 focus:outline-none p-1 cursor-pointer"
+              className="bg-transparent text-sm text-stone-700 focus:outline-none p-1 cursor-pointer"
               value={baudRate}
               onChange={(e) => setBaudRate(Number(e.target.value))}
               disabled={connectionState === ConnectionState.CONNECTED}
             >
               {BAUD_RATES.map((rate) => (
-                <option key={rate} value={rate} className="bg-slate-800 text-slate-200">
+                <option key={rate} value={rate} className="bg-white text-stone-900">
                   {rate} Baud
                 </option>
               ))}
@@ -445,21 +446,21 @@ export default function App() {
         <div className="lg:col-span-8 flex flex-col gap-6 h-full overflow-hidden">
           
           {/* Chart Section (2/3 height) */}
-          <div className="flex-[2] bg-slate-900 rounded-xl border border-slate-800 p-4 shadow-xl flex flex-col min-h-0 relative">
+          <div className="flex-[2] bg-white rounded-xl border border-stone-200 p-4 shadow-sm flex flex-col min-h-0 relative">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 shrink-0 gap-4">
               <div className="flex items-center gap-4">
-                  <h2 className="text-lg font-semibold flex items-center gap-2">
-                    <Activity className="w-5 h-5 text-blue-500" />
+                  <h2 className="text-lg font-semibold flex items-center gap-2 text-stone-800">
+                    <Activity className="w-5 h-5 text-blue-600" />
                     {t.liveData}
                   </h2>
                   {connectionState === ConnectionState.CONNECTED && !isPaused && (
-                    <span className="flex items-center gap-1 text-xs text-green-400 animate-pulse">
+                    <span className="flex items-center gap-1 text-xs text-green-600 animate-pulse">
                       <span className="w-2 h-2 rounded-full bg-green-500"></span>
                       {t.active}
                     </span>
                   )}
                   {connectionState === ConnectionState.CONNECTED && isPaused && (
-                    <span className="flex items-center gap-1 text-xs text-amber-400">
+                    <span className="flex items-center gap-1 text-xs text-amber-500">
                       <span className="w-2 h-2 rounded-full bg-amber-500"></span>
                       {t.paused}
                     </span>
@@ -467,10 +468,10 @@ export default function App() {
               </div>
 
               {/* Chart Controls */}
-              <div className="flex flex-wrap items-center gap-3 bg-slate-800/50 p-2 rounded-lg border border-slate-700/50">
+              <div className="flex flex-wrap items-center gap-3 bg-stone-100 p-2 rounded-lg border border-stone-200">
                   {/* Window Size Control */}
-                  <div className="flex items-center gap-2 px-2 border-r border-slate-700/50">
-                    <span className="text-xs text-slate-400 font-medium">{t.xAxis}</span>
+                  <div className="flex items-center gap-2 px-2 border-r border-stone-300">
+                    <span className="text-xs text-stone-500 font-medium">{t.xAxis}</span>
                     <input 
                       type="range" 
                       min="10" 
@@ -478,20 +479,20 @@ export default function App() {
                       step="10"
                       value={windowSize}
                       onChange={(e) => setWindowSize(Number(e.target.value))}
-                      className="w-24 h-1 bg-slate-600 rounded-lg appearance-none cursor-pointer"
+                      className="w-24 h-1 bg-stone-300 rounded-lg appearance-none cursor-pointer"
                     />
-                    <span className="text-xs text-slate-300 w-8 text-right">{windowSize}</span>
+                    <span className="text-xs text-stone-600 w-8 text-right">{windowSize}</span>
                   </div>
 
                   {/* Y-Axis Control */}
                   <div className="flex items-center gap-2">
-                     <span className="text-xs text-slate-400 font-medium">{t.yAxis}</span>
-                     <label className="flex items-center gap-1 text-xs text-slate-300 cursor-pointer mr-2">
+                     <span className="text-xs text-stone-500 font-medium">{t.yAxis}</span>
+                     <label className="flex items-center gap-1 text-xs text-stone-600 cursor-pointer mr-2">
                         <input 
                           type="checkbox" 
                           checked={isYAxisAuto}
                           onChange={(e) => setIsYAxisAuto(e.target.checked)}
-                          className="rounded border-slate-600 bg-slate-700 text-blue-500 focus:ring-offset-slate-900"
+                          className="rounded border-stone-300 bg-white text-blue-600 focus:ring-offset-white"
                         />
                         {t.auto}
                      </label>
@@ -501,15 +502,15 @@ export default function App() {
                               type="number" 
                               value={yAxisMin}
                               onChange={(e) => setYAxisMin(Number(e.target.value))}
-                              className="w-14 bg-slate-950 border border-slate-700 rounded px-1 text-xs text-right"
+                              className="w-14 bg-white border border-stone-300 rounded px-1 text-xs text-right text-stone-800"
                               placeholder="Min"
                            />
-                           <span className="text-slate-500">-</span>
+                           <span className="text-stone-400">-</span>
                            <input 
                               type="number" 
                               value={yAxisMax}
                               onChange={(e) => setYAxisMax(Number(e.target.value))}
-                              className="w-14 bg-slate-950 border border-slate-700 rounded px-1 text-xs text-right"
+                              className="w-14 bg-white border border-stone-300 rounded px-1 text-xs text-right text-stone-800"
                               placeholder="Max"
                            />
                         </div>
@@ -519,7 +520,7 @@ export default function App() {
 
               <button 
                 onClick={handleDownloadChart}
-                className="p-2 bg-slate-800 hover:bg-slate-700 rounded text-slate-300 transition-colors flex items-center gap-1 text-xs"
+                className="p-2 bg-stone-100 hover:bg-stone-200 rounded text-stone-600 transition-colors flex items-center gap-1 text-xs"
                 title={t.downloadChart}
               >
                 <ImageIcon className="w-4 h-4" />
@@ -540,16 +541,16 @@ export default function App() {
           </div>
 
           {/* AI Analysis Section (1/3 height, split vertically) */}
-          <div className="flex-1 min-h-[250px] bg-slate-900 rounded-xl border border-slate-800 p-4 shadow-xl flex flex-col shrink-0">
+          <div className="flex-1 min-h-[250px] bg-white rounded-xl border border-stone-200 p-4 shadow-sm flex flex-col shrink-0">
              <div className="flex justify-between items-center mb-3">
-                <h2 className="text-lg font-semibold flex items-center gap-2 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                  <BrainCircuit className="w-5 h-5 text-purple-400" />
+                <h2 className="text-lg font-semibold flex items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                  <BrainCircuit className="w-5 h-5 text-purple-600" />
                   {t.aiInsight}
                 </h2>
                 <Button 
                   variant="secondary" 
                   size="sm" 
-                  className="text-xs py-1 h-8" 
+                  className="text-xs py-1 h-8 bg-stone-100 hover:bg-stone-200 text-stone-700 border border-stone-200" 
                   onClick={handleAIAnalyze}
                   disabled={data.length < 5 || isAnalyzing}
                 >
@@ -563,37 +564,37 @@ export default function App() {
                 
                 {/* User Input Area */}
                 <div className="flex-1 flex flex-col gap-2">
-                   <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider ml-1">
+                   <label className="text-xs font-semibold text-stone-500 uppercase tracking-wider ml-1">
                       {t.userObservation}
                    </label>
                    <textarea 
                       value={userNote}
                       onChange={(e) => setUserNote(e.target.value)}
                       placeholder={t.userPlaceholder}
-                      className="flex-1 w-full bg-slate-950/50 border border-slate-700/50 rounded-lg p-3 text-sm text-slate-200 resize-none focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 transition-all placeholder:text-slate-600"
+                      className="flex-1 w-full bg-stone-50 border border-stone-200 rounded-lg p-3 text-sm text-stone-800 resize-none focus:outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400 transition-all placeholder:text-stone-400"
                    />
                 </div>
 
                 {/* Vertical Divider (Visible on desktop) */}
-                <div className="hidden md:block w-px bg-slate-800 my-2"></div>
+                <div className="hidden md:block w-px bg-stone-200 my-2"></div>
 
                 {/* AI Output Area */}
                 <div className="flex-1 flex flex-col gap-2 min-w-0">
-                   <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider ml-1">
+                   <label className="text-xs font-semibold text-stone-500 uppercase tracking-wider ml-1">
                       {t.feedbackTitle}
                    </label>
-                   <div className="flex-1 bg-slate-950/50 rounded-lg p-3 overflow-y-auto custom-scrollbar border border-slate-800/50">
+                   <div className="flex-1 bg-stone-50 rounded-lg p-3 overflow-y-auto custom-scrollbar border border-stone-200">
                       {isAnalyzing ? (
-                        <div className="flex flex-col items-center justify-center h-full text-slate-500 gap-2">
+                        <div className="flex flex-col items-center justify-center h-full text-stone-500 gap-2">
                           <div className="w-6 h-6 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
                           <p className="text-sm">{t.analyzingDesc}</p>
                         </div>
                       ) : aiAnalysis ? (
-                        <div className="prose prose-invert prose-sm max-w-none whitespace-pre-wrap text-slate-300 text-sm leading-relaxed">
+                        <div className="prose prose-sm max-w-none whitespace-pre-wrap text-stone-700 text-sm leading-relaxed">
                           {aiAnalysis}
                         </div>
                       ) : (
-                        <div className="flex flex-col items-center justify-center h-full text-slate-600 italic text-sm text-center px-4">
+                        <div className="flex flex-col items-center justify-center h-full text-stone-400 italic text-sm text-center px-4">
                           <p>{t.noDataAnalysis}</p>
                         </div>
                       )}
@@ -609,37 +610,37 @@ export default function App() {
           
           {/* Stats Cards */}
           <div className="grid grid-cols-2 gap-4 shrink-0">
-            <div className="bg-slate-800/50 p-4 rounded-xl border border-slate-700">
-              <p className="text-slate-400 text-xs uppercase font-bold">{t.dataPoints}</p>
-              <p className="text-2xl font-mono font-bold text-white mt-1">{data.length}</p>
+            <div className="bg-white p-4 rounded-xl border border-stone-200 shadow-sm">
+              <p className="text-stone-500 text-xs uppercase font-bold">{t.dataPoints}</p>
+              <p className="text-2xl font-mono font-bold text-stone-900 mt-1">{data.length}</p>
             </div>
-            <div className="bg-slate-800/50 p-4 rounded-xl border border-slate-700">
-              <p className="text-slate-400 text-xs uppercase font-bold">{t.duration}</p>
-              <p className="text-2xl font-mono font-bold text-white mt-1">
+            <div className="bg-white p-4 rounded-xl border border-stone-200 shadow-sm">
+              <p className="text-stone-500 text-xs uppercase font-bold">{t.duration}</p>
+              <p className="text-2xl font-mono font-bold text-stone-900 mt-1">
                 {data.length > 0 ? formatElapsedTime(data[data.length - 1].timestamp) : "00:00:00.000"}
               </p>
             </div>
           </div>
 
           {/* Data Table */}
-          <div className="flex-1 min-h-0 flex flex-col bg-slate-900 rounded-xl border border-slate-800 p-4 shadow-xl">
+          <div className="flex-1 min-h-0 flex flex-col bg-white rounded-xl border border-stone-200 p-4 shadow-sm">
             <div className="flex justify-between items-center mb-4 shrink-0">
-              <h2 className="text-lg font-semibold flex items-center gap-2">
-                <Cpu className="w-5 h-5 text-emerald-500" />
+              <h2 className="text-lg font-semibold flex items-center gap-2 text-stone-800">
+                <Cpu className="w-5 h-5 text-emerald-600" />
                 {t.dataLog}
               </h2>
               <div className="flex gap-2">
                 <button 
                   onClick={handleExport} 
                   disabled={data.length === 0}
-                  className="p-2 hover:bg-slate-800 rounded-lg text-slate-400 hover:text-white transition-colors disabled:opacity-30"
+                  className="p-2 hover:bg-stone-100 rounded-lg text-stone-500 hover:text-stone-900 transition-colors disabled:opacity-30"
                   title={t.export}
                 >
                   <Download className="w-4 h-4" />
                 </button>
                 <button 
                   onClick={handleClear} 
-                  className="p-2 hover:bg-red-900/30 rounded-lg text-slate-400 hover:text-red-400 transition-colors"
+                  className="p-2 hover:bg-red-50 rounded-lg text-stone-500 hover:text-red-500 transition-colors"
                   title={t.clear}
                 >
                   <Trash2 className="w-4 h-4" />
@@ -659,15 +660,15 @@ export default function App() {
           </div>
           
           {/* Instructions (Bottom Right) */}
-          <div className="bg-slate-900/30 border border-slate-800 p-4 rounded-xl text-xs text-slate-400 shrink-0">
-            <p className="font-semibold text-slate-300 mb-1">{t.instructionsTitle}</p>
+          <div className="bg-stone-100 border border-stone-200 p-4 rounded-xl text-xs text-stone-600 shrink-0">
+            <p className="font-semibold text-stone-800 mb-1">{t.instructionsTitle}</p>
             <ol className="list-decimal pl-4 space-y-1">
               {t.instructions.map((inst, i) => (
                 <li key={i}>
                   {inst.includes('\\n') ? (
                     <>
                       {inst.split('\\n')[0]}
-                      <code className="bg-slate-800 px-1 rounded">\n</code>
+                      <code className="bg-stone-200 px-1 rounded text-stone-800 font-mono">\n</code>
                       {inst.split('\\n')[1]}
                     </>
                   ) : inst}

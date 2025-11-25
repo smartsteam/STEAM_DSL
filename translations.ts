@@ -2,8 +2,8 @@ export type Language = 'en' | 'ko';
 
 export const translations = {
   en: {
-    appTitle: "SciDash",
-    appSubtitle: "Digital Experiment Dashboard",
+    appTitle: "DSL",
+    appSubtitle: "Digital Science Lab",
     connect: "Connect",
     disconnect: "Disconnect",
     pause: "Pause",
@@ -46,8 +46,8 @@ export const translations = {
     ]
   },
   ko: {
-    appTitle: "SciDash",
-    appSubtitle: "디지털 과학실험 대시보드",
+    appTitle: "DSL",
+    appSubtitle: "디지털 과학 실험실",
     connect: "연결",
     disconnect: "연결 해제",
     pause: "일시정지",
